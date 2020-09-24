@@ -10,28 +10,7 @@ var aroom = io.of('/a');
 var broom = io.of('/b');
 var croom = io.of('/c');
 
-var userList = [
-{
-  "id" : "1",
-  "name" : "yys",
-  "isConnected" : false
-},
-{
-  "id" : "2",
-  "name" : "syj",
-  "isConnected" : false
-},
-{
-  "id" : "3",
-  "name" : "yys3",
-  "isConnected" : false
-},
-{
-  "id" : "4",
-  "name" : "syj2",
-  "isConnected" : false
-}
-]
+var userList = [];
 
 var chatRoom = [
 {
