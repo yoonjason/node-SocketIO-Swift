@@ -94,12 +94,13 @@ io.on('connection', function(clientSocket){
     delete typingUsers[clientNickname];
     io.emit('userTypingUpdate', typingUsers);
     io.emit('newChatMessage', clientNickname, message, currentDateTime);
+    console.log(clientNickname, message, currentDateTime);
   }); 
 
   clientSocket.on('connectUser', function(clientNickname) {
     var message = "User " + clientNickname + " was connected";
     console.log(message);
-
+    console.log(clientSocket.id);
     var userInfo = {};
     var foundUser = false;
 
