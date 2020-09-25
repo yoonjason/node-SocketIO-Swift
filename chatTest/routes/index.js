@@ -5,31 +5,16 @@ var http = require('http').Server(express);
 var io = require('socket.io')(http);
 var typingUsers = {};
 
-var room = io.of('/ff');
+var room = io.of('/room');
 var aroom = io.of('/a');
 var broom = io.of('/b');
 var croom = io.of('/c');
 
 var userList = [];
 
-var chatRoom = [
-{
-  'name' : 1,
-  'room' : ["test", "a", "b"]
-},
-{
-  'name' : 2,
-  'room' : ["d", "b", "c"]
-}
-]
-
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  room.emit('ff', {
-    'Hello' : 'World',
-    'test' : 'good'
-  })
   res.send('<h1> SocketChat Server</h1>');
 });
 
@@ -37,18 +22,6 @@ router.get('/', function(req, res, next) {
 http.listen(9000, function() {
   console.log('Listining on on *:9000');
 })
-
-router.get('/getChatList/:name', (req, res) => {
-  const name = req.params.name;
-  const list = []
-
-  chatRoom.forEach(element => {
-    if (element.name == name) {
-      list.push(element);
-    }
-  });
-  res.send(list);
-});
 
 router.get('/index', (req, res) => {
   // res.send('<h1> Index Server</h1>');
@@ -127,17 +100,10 @@ io.on('connection', function(clientSocket){
 
 });
 
-io.on('connection', (socket) => {
-  console.log('a user connected');
-
-
-})
-
-
 room.on('connection', (clientSocket) => {
   console.log('*** test connected ***');
-  console.log(clientSocket.id + 'ㅁㄴ이;라ㅓㅁ니라ㅓㅁㄴ이라ㅓㄴㅁ;');
-  console.log('clientSocket'+ clientSocket );
+  console.log("clientSocket.id" + clientSocket.id);
+  
   //echo
   //user = 0 , other = 1
   clientSocket.on('test', (msg) => {
@@ -153,35 +119,6 @@ room.on('connection', (clientSocket) => {
     console.log('test disconnected');
   })
 
-  clientSocket.on('event', (msg) => { 
-    console.log(msg);
-    console.log(msg["message"]);
-    console.log('*****');
-  })
-
-  clientSocket.on('event1', (msg) => {
-    console.log(msg);
-    console.log(msg[0]["name"]);
-    console.log(msg[0]["email"]);
-    console.log('***** event1');
-
-    clientSocket.emit('test', {'res' : 'event1 response!'});
-  })  
-
-  clientSocket.on('event2', (msg) => {
-    console.log(msg);
-    console.log(msg["name"]);
-    console.log(msg["email"]);
-    console.log('***** event2');
-
-    clientSocket.emit('test', {'res' : 'event2 response!'});
-  })
-
-  clientSocket.on('eventString', (msg) => {
-    console.log(msg);
-    console.log(msg["nickname"]);
-    console.log(msg["eventString"]);
-  })
 
 })
 
