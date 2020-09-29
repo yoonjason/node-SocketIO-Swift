@@ -114,11 +114,20 @@ io.on("connection", function (clientSocket) {
   clientSocket.on("createRoom", function (data) {
     console.log(data.roomname);
     clientSocket.join(data.roomname);
-    console.log("rooms list  : " + io.sockets.manager.rooms);
+
+    // console.log("rooms list  : " + io.sockets.manager.rooms);
   });
 
   clientSocket.on("leaveRoom", function (data) {
-    clientSocket.leave(data.room);
+    clientSocket.leave(data.roomname);
+  });
+
+  clientSocket.on("groupMessage", function (data) {
+    io.sockets.in(data.roomname).emit("msgAlert", data.message); //자신포함 전체 룸안의 유저
+    console.log(data);
+    //socket.broadcast.to(room_id).emit('msgAlert',data); //자신 제외 룸안의 유저
+    //socket.in(room_id).emit('msgAlert',data); //broadcast 동일하게 가능 자신 제외 룸안의 유저
+    //io.of('namespace').in(room_id).emit('msgAlert', data) //of 지정된 name space의 유저의 룸
   });
 
   clientSocket.on("toMessage", function (request, response) {
