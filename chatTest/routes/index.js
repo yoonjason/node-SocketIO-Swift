@@ -111,6 +111,16 @@ io.on("connection", function (clientSocket) {
     io.emit("userExitUpdate", clientNickname);
   });
 
+  clientSocket.on("createRoom", function (data) {
+    console.log(data.roomname);
+    clientSocket.join(data.roomname);
+    console.log("rooms list  : " + io.sockets.manager.rooms);
+  });
+
+  clientSocket.on("leaveRoom", function (data) {
+    clientSocket.leave(data.room);
+  });
+
   clientSocket.on("toMessage", function (request, response) {
     var currentDateTime = new Date().toLocaleString();
     io.to(request.id).emit("sendServerToMessage", request.message);
